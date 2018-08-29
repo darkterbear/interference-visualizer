@@ -9,6 +9,11 @@ body {
   font-family: "Sofia Pro";
 }
 
+svg {
+  margin: 0;
+  padding: 0;
+}
+
 h1,
 h2,
 h3,
@@ -54,6 +59,34 @@ h1.header {
   float: left;
   height: 100%;
   width: calc(100% - 24em);
+}
+
+.button {
+  background: #527aff;
+  cursor: pointer;
+  color: white;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.5em;
+  height: 2em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  padding-left: 2em;
+  padding-right: 2em;
+  border-radius: 1em;
+  border: none;
+  transition: 0.2s ease box-shadow;
+  box-shadow: 1px 2px 8px #c4c4c4;
+}
+.button:hover {
+  box-shadow: 1px 3px 12px #888;
+}
+.button:active {
+  box-shadow: 1px 2px 8px #c4c4c4;
+}
+.button.navButton {
+  margin-left: auto;
 }
 
 /*# sourceMappingURL=styles.css.map */

@@ -1,3 +1,5 @@
+$blue: #527aff;
+
 html,
 body {
 	width: 100%;
@@ -8,6 +10,11 @@ body {
 
 	font-size: 16px;
 	font-family: 'Sofia Pro';
+}
+
+svg {
+	margin: 0;
+	padding: 0;
 }
 
 h1,
@@ -59,5 +66,52 @@ h1.header {
 		float: left;
 		height: 100%;
 		width: calc(100% - 24em);
+	}
+}
+
+$grayDark: #888;
+$grayLight: #c4c4c4;
+$shadowIdle: 1px 2px 8px $grayLight;
+$shadowHover: 1px 3px 12px $grayDark;
+$shadowClicked: 1px 2px 8px $grayLight;
+
+// button component
+$buttonMargin: 0.5em;
+
+$buttonPadding: 2em;
+
+.button {
+	background: $blue;
+	cursor: pointer;
+	color: white;
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+
+	font-size: 1.5em;
+	height: 2em;
+
+	margin-left: $buttonMargin;
+	margin-right: $buttonMargin;
+
+	padding-left: $buttonPadding;
+	padding-right: $buttonPadding;
+
+	border-radius: 1em;
+	border: none;
+
+	// handle hover + click animation
+	transition: 0.2s ease box-shadow;
+	box-shadow: $shadowIdle;
+
+	&:hover {
+		box-shadow: $shadowHover;
+	}
+	&:active {
+		box-shadow: $shadowClicked;
+	}
+
+	&.navButton {
+		margin-left: auto;
 	}
 }
