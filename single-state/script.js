@@ -1,24 +1,7 @@
-var procsWidth = document.getElementById('procs').offsetWidth
-var procsHeight = document.getElementById('procs').offsetHeight
-
-var pagesWidth = document.getElementById('pages').offsetWidth
-var pagesHeight = document.getElementById('pages').offsetHeight
-
-var headerHeight = document.getElementsByClassName('header')[0].offsetHeight
-
-var procsSVG = d3
-	.select('#procs')
-	.append('svg:svg')
-	.attr('width', procsWidth)
-	.attr('height', procsHeight - headerHeight - 8)
-
-var pagesSVG = d3
-	.select('#pages')
-	.append('svg:svg')
-	.attr('width', pagesWidth)
-	.attr('height', pagesHeight - headerHeight - 8)
-
 var speed = 300
+
+var procsSVG
+var pagesSVG
 
 var uploadButton = document.getElementById('uploadButton')
 
