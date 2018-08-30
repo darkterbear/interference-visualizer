@@ -61,9 +61,13 @@ const drawProcs = (current, procs) => {
 			.attr('fill', 'white')
 			.attr('stroke', strokeColor)
 			.attr('stroke-width', 6)
-			.on('click', () => {
-				togglePageHighlight(procId)
-			})
+		// .on('click', () => {
+		// 	togglePageHighlight(procId)
+		// })
+
+		procGroup.on('click', () => {
+			togglePageHighlight(procId)
+		})
 
 		procGroup
 			.append('svg:line')
@@ -228,7 +232,7 @@ const togglePageHighlight = procId => {
 	thisProcPages.toggled = on
 
 	const newStrokeWidth = on ? 4 : 0
-	const newProcColor = on ? '#ededff' : 'white'
+	const newProcBorderWidth = on ? 12 : 6
 
 	thisProcPages.nodes.forEach(pageRect => {
 		pageRect
@@ -240,7 +244,7 @@ const togglePageHighlight = procId => {
 	// highlight this proc
 	selectByD3Id('proc-' + procId + '-rect')
 		.transition()
-		.attr('fill', newProcColor)
+		.attr('stroke-width', newProcBorderWidth)
 		.duration(speed)
 
 	// unhighlight the pages and the proc that don't belong to this procId
