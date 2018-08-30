@@ -41,6 +41,7 @@ const drawProcs = (current, procs) => {
 
 	var index = 0
 	for (i in procs) {
+		procPages[i] = { toggled: false, nodes: [] }
 		var procGroup = procsSVG.append('svg:g').attr('id', 'proc-' + i)
 		const proc = procs[i]
 
@@ -206,17 +207,25 @@ const drawPages = pages => {
 			.attr('stroke', '#527aff')
 			.attr('stroke-width', 0)
 
-		if (procPages[page.owner]) {
-			procPages[page.owner].nodes.push(pageRect)
-		} else {
-			procPages[page.owner] = { toggled: false, nodes: [pageRect] }
-		}
+		procPages[page.owner].nodes.push(pageRect)
+		// if (procPages[page.owner]) {
+		// 	procPages[page.owner].nodes.push(pageRect)
+		// } else {
+		// 	procPages[page.owner] = { toggled: false, nodes: [pageRect] }
+		// }
 
 		column++
 	}
 }
 
 const togglePageHighlight = procId => {
+	// highlight this proc
+	selectByD3Id('proc-' + procId + '-rect')
+		.transition()
+		.attr('fill', '#ededff')
+		.duration(speed)
+
+	// highlight the pages that belong to this procId
 	var thisProcPages = procPages[procId]
 
 	if (!thisProcPages) return
@@ -232,4 +241,27 @@ const togglePageHighlight = procId => {
 			.attr('stroke-width', newStrokeWidth)
 			.duration(speed)
 	})
+
+	// unhighlight the pages and the proc that don't belong to this procId
+	for (var id in procPages) {
+		if (id == procId) continue
+
+		var unhighlightProcPages = procPages[id]
+
+		if (!unhighlightProcPages.toggled) continue
+
+		selectByD3Id('proc-' + id + '-rect')
+			.transition()
+			.attr('fill', 'white')
+			.duration(speed * 2)
+
+		unhighlightProcPages.toggled = false
+
+		unhighlightProcPages.nodes.forEach(pageRect => {
+			pageRect
+				.transition()
+				.attr('stroke-width', 0)
+				.duration(speed)
+		})
+	}
 }
