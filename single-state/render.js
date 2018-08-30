@@ -219,12 +219,6 @@ const drawPages = pages => {
 }
 
 const togglePageHighlight = procId => {
-	// highlight this proc
-	selectByD3Id('proc-' + procId + '-rect')
-		.transition()
-		.attr('fill', '#ededff')
-		.duration(speed)
-
 	// highlight the pages that belong to this procId
 	var thisProcPages = procPages[procId]
 
@@ -234,6 +228,7 @@ const togglePageHighlight = procId => {
 	thisProcPages.toggled = on
 
 	const newStrokeWidth = on ? 4 : 0
+	const newProcColor = on ? '#ededff' : 'white'
 
 	thisProcPages.nodes.forEach(pageRect => {
 		pageRect
@@ -241,6 +236,12 @@ const togglePageHighlight = procId => {
 			.attr('stroke-width', newStrokeWidth)
 			.duration(speed)
 	})
+
+	// highlight this proc
+	selectByD3Id('proc-' + procId + '-rect')
+		.transition()
+		.attr('fill', newProcColor)
+		.duration(speed)
 
 	// unhighlight the pages and the proc that don't belong to this procId
 	for (var id in procPages) {
