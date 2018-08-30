@@ -3,7 +3,10 @@ const procWidth = 48 * 5
 
 var procsWidth = document.getElementById('procs').offsetWidth
 var pagesWidth = document.getElementById('pages').offsetWidth
+var pagesHeight = document.getElementById('pages').offsetHeight
 var headerHeight = document.getElementsByClassName('header')[0].offsetHeight
+
+var procPages = {}
 
 const drawState = state => {
 	procsSVG = d3
@@ -12,14 +15,14 @@ const drawState = state => {
 		.attr('width', procsWidth)
 		.attr('height', Object.keys(state.procs).length * 1.25 * procHeight + 96)
 
-	// pagesSVG = d3
-	// 	.select('#pages')
-	// 	.append('svg:svg')
-	// 	.attr('width', pagesWidth)
-	// 	.attr('height', pagesHeight - headerHeight - 8)
+	pagesSVG = d3
+		.select('#pages')
+		.append('svg:svg')
+		.attr('width', pagesWidth)
+		.attr('height', pagesHeight - headerHeight - 8)
 
 	drawProcs(state.current, state.procs)
-	// drawPages(state.pages)
+	drawPages(state.pages)
 }
 
 const drawProcs = (current, procs) => {
@@ -44,6 +47,7 @@ const drawProcs = (current, procs) => {
 		const strokeColor =
 			i == current ? '#527aff' : proc.state === 1 ? '#57E5A1' : '#F05056'
 
+		const procId = i
 		procGroup
 			.append('svg:rect')
 			.attr('id', 'proc-' + i + '-rect')
@@ -56,6 +60,9 @@ const drawProcs = (current, procs) => {
 			.attr('fill', 'white')
 			.attr('stroke', strokeColor)
 			.attr('stroke-width', 6)
+			.on('click', () => {
+				togglePageHighlight(procId)
+			})
 
 		procGroup
 			.append('svg:line')
@@ -164,4 +171,65 @@ const drawProcs = (current, procs) => {
 
 		index++
 	}
+}
+
+const pageDimension = 36
+
+const drawPages = pages => {
+	const pagesPerRow = Math.floor(pagesWidth / (pageDimension * 1.5))
+
+	var row = 0
+	var column = 0
+
+	for (var i in pages) {
+		if (column >= pagesPerRow) {
+			row++
+			column = 0
+		}
+
+		console.log(row + ' ' + column)
+
+		const page = pages[i]
+
+		const color = page.free ? '#57E5A1' : '#aaaaaa'
+
+		const pageRect = pagesSVG
+			.append('svg:rect')
+			.attr('id', 'page-' + i)
+			.attr('height', pageDimension)
+			.attr('width', pageDimension)
+			.attr('x', column * pageDimension * 1.5 + 32)
+			.attr('y', row * pageDimension * 1.5 + 32)
+			.attr('rx', 8)
+			.attr('ry', 8)
+			.attr('fill', color)
+			.attr('stroke', '#527aff')
+			.attr('stroke-width', 0)
+
+		if (procPages[page.owner]) {
+			procPages[page.owner].nodes.push(pageRect)
+		} else {
+			procPages[page.owner] = { toggled: false, nodes: [pageRect] }
+		}
+
+		column++
+	}
+}
+
+const togglePageHighlight = procId => {
+	var thisProcPages = procPages[procId]
+
+	if (!thisProcPages) return
+
+	const on = !thisProcPages.toggled
+	thisProcPages.toggled = on
+
+	const newStrokeWidth = on ? 4 : 0
+
+	thisProcPages.nodes.forEach(pageRect => {
+		pageRect
+			.transition()
+			.attr('stroke-width', newStrokeWidth)
+			.duration(speed)
+	})
 }
