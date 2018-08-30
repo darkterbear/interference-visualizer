@@ -20,6 +20,8 @@ uploadButton.onclick = () => {
 		fileReader.onload = async e => {
 			var state = JSON.parse(fileReader.result)
 
+			clearCanvas()
+
 			drawState(state)
 		}
 	}

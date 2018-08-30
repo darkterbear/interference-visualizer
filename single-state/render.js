@@ -270,3 +270,8 @@ const togglePageHighlight = procId => {
 		})
 	}
 }
+
+const clearCanvas = () => {
+	if (procsSVG) procsSVG.remove()
+	if (pagesSVG) pagesSVG.remove()
+}
