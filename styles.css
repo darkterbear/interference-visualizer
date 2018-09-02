@@ -1,0 +1,140 @@
+::-webkit-scrollbar {
+  display: none;
+}
+
+html,
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100%;
+  font-size: 16px;
+  font-family: "Sofia Pro";
+}
+
+svg {
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  font-size: 4em;
+}
+
+h1.header {
+  margin-left: 0.5em;
+}
+
+h3 {
+  margin-left: 0.5em;
+}
+
+a {
+  color: #527aff;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+a:link {
+  color: #527aff;
+  text-decoration: none;
+}
+a:visited {
+  color: #527aff;
+  text-decoration: none;
+}
+a:hover {
+  color: #527aff;
+  text-decoration: none;
+}
+a:active {
+  color: #527aff;
+  text-decoration: none;
+}
+
+#nav {
+  height: 4em;
+  width: 80%;
+  box-shadow: 1px 3px 10px #888888;
+  border-radius: 0 0 1em 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 4em;
+  padding-right: 4em;
+  margin: 0 auto;
+}
+
+#content {
+  margin: 0 auto;
+  margin-top: 2em;
+  height: calc(100% - 6em);
+  width: 80%;
+}
+#content .vis-type {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: calc(100% - 8em);
+  padding: 4em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin-top: 1em;
+  border-radius: 1em;
+  border: 6px solid #527aff;
+  color: #527aff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#content .vis-type:hover {
+  color: white;
+  background: #527aff;
+}
+
+.button {
+  background: #527aff;
+  cursor: pointer;
+  color: white;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.5em;
+  height: 2em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  padding-left: 2em;
+  padding-right: 2em;
+  border-radius: 1em;
+  border: none;
+  transition: 0.2s ease box-shadow;
+  box-shadow: 1px 2px 8px #c4c4c4;
+}
+.button:hover {
+  box-shadow: 1px 3px 12px #888;
+}
+.button:active {
+  box-shadow: 1px 2px 8px #c4c4c4;
+}
+.button.navButton {
+  margin-left: auto;
+}
+
+/*# sourceMappingURL=styles.css.map */

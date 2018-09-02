@@ -1,0 +1,173 @@
+@mixin noselect() {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+$blue: #527aff;
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+html,
+body {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	height: 100%;
+
+	font-size: 16px;
+	font-family: 'Sofia Pro';
+}
+
+svg {
+	margin: 0;
+	padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+	padding: 0;
+	margin: 0;
+}
+
+h1 {
+	font-size: 4em;
+}
+
+h1.header {
+	margin-left: 0.5em;
+}
+
+h3 {
+	margin-left: 0.5em;
+}
+
+a {
+	color: $blue;
+	cursor: pointer;
+
+	@include noselect();
+
+	&:link {
+		color: $blue;
+		text-decoration: none;
+	}
+	&:visited {
+		color: $blue;
+		text-decoration: none;
+	}
+	&:hover {
+		color: $blue;
+		text-decoration: none;
+	}
+	&:active {
+		color: $blue;
+		text-decoration: none;
+	}
+}
+
+#nav {
+	height: 4em;
+	width: 80%;
+
+	box-shadow: 1px 3px 10px #888888;
+	border-radius: 0 0 1em 1em;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+
+	padding-left: 4em;
+	padding-right: 4em;
+	margin: 0 auto;
+}
+
+#content {
+	margin: 0 auto;
+	margin-top: 2em;
+	height: calc(100% - 6em);
+	width: 80%;
+
+	.vis-type {
+		@include noselect();
+
+		width: calc(100% - 8em);
+
+		padding: 4em;
+		padding-top: 1em;
+		padding-bottom: 1em;
+
+		margin-top: 1em;
+
+		border-radius: 1em;
+		border: 6px solid $blue;
+
+		color: $blue;
+
+		cursor: pointer;
+
+		&:hover {
+			color: white;
+			background: $blue;
+		}
+
+		transition: 0.3s;
+	}
+}
+
+$grayDark: #888;
+$grayLight: #c4c4c4;
+$shadowIdle: 1px 2px 8px $grayLight;
+$shadowHover: 1px 3px 12px $grayDark;
+$shadowClicked: 1px 2px 8px $grayLight;
+
+// button component
+$buttonMargin: 0.5em;
+
+$buttonPadding: 2em;
+
+.button {
+	background: $blue;
+	cursor: pointer;
+	color: white;
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+
+	font-size: 1.5em;
+	height: 2em;
+
+	margin-left: $buttonMargin;
+	margin-right: $buttonMargin;
+
+	padding-left: $buttonPadding;
+	padding-right: $buttonPadding;
+
+	border-radius: 1em;
+	border: none;
+
+	// handle hover + click animation
+	transition: 0.2s ease box-shadow;
+	box-shadow: $shadowIdle;
+
+	&:hover {
+		box-shadow: $shadowHover;
+	}
+	&:active {
+		box-shadow: $shadowClicked;
+	}
+
+	&.navButton {
+		margin-left: auto;
+	}
+}
