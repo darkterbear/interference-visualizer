@@ -35,6 +35,10 @@ h1.header {
   margin-left: 0.5em;
 }
 
+h3 {
+  font-size: 2em;
+}
+
 #nav {
   height: 4em;
   width: 80%;

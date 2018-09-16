@@ -35,36 +35,14 @@ h1.header {
   margin-left: 0.5em;
 }
 
-h3 {
-  margin-left: 0.5em;
-  font-size: 2em;
+h2 {
+  font-size: 3em;
+  margin-left: 1em;
+  margin-right: 1em;
 }
 
-a {
-  color: #527aff;
-  cursor: pointer;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-a:link {
-  color: #527aff;
-  text-decoration: none;
-}
-a:visited {
-  color: #527aff;
-  text-decoration: none;
-}
-a:hover {
-  color: #527aff;
-  text-decoration: none;
-}
-a:active {
-  color: #527aff;
-  text-decoration: none;
+h3 {
+  font-size: 2em;
 }
 
 #nav {
@@ -74,10 +52,9 @@ a:active {
   border-radius: 0 0 1em 1em;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: start;
   align-items: center;
   padding-left: 4em;
-  padding-right: 4em;
   margin: 0 auto;
 }
 
@@ -85,29 +62,45 @@ a:active {
   margin: 0 auto;
   margin-top: 2em;
   height: calc(100% - 6em);
-  width: 80%;
+  width: calc(100% - 2em);
 }
-#content .vis-type {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: calc(100% - 8em);
-  padding: 4em;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  margin-top: 1em;
-  border-radius: 1em;
-  border: 6px solid #527aff;
-  color: #527aff;
-  cursor: pointer;
-  transition: 0.3s;
+#content #state-1 {
+  width: calc(50% - 2px);
+  height: 100%;
+  float: left;
+  border-right: 2px dashed #527aff;
 }
-#content .vis-type:hover {
-  color: white;
-  background: #527aff;
+#content #state-1 #procs {
+  float: left;
+  width: 24em;
+  height: 100%;
+  overflow: auto;
+}
+#content #state-1 #pages {
+  float: left;
+  height: 100%;
+  width: calc(100% - 24em);
+}
+#content #state-2 {
+  width: 50%;
+  height: 100%;
+  float: left;
+  text-align: right;
+}
+#content #state-2 h1 {
+  margin-left: 0;
+  margin-right: 0.5em;
+}
+#content #state-2 #procs {
+  float: right;
+  width: 24em;
+  height: 100%;
+  overflow: auto;
+}
+#content #state-2 #pages {
+  float: right;
+  height: 100%;
+  width: calc(100% - 24em);
 }
 
 .button {
