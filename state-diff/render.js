@@ -1,35 +1,53 @@
 const procHeight = 48 * 3
 const procWidth = 48 * 5
 
-var procsWidth = document.getElementById('procs').offsetWidth
-var pagesWidth = document.getElementById('pages').offsetWidth
-var pagesHeight = document.getElementById('pages').offsetHeight
+var procsWidth = document.getElementById('procs-1').offsetWidth
+var pagesWidth = document.getElementById('pages-1').offsetWidth
+var pagesHeight = document.getElementById('pages-1').offsetHeight
 var headerHeight = document.getElementsByClassName('header')[0].offsetHeight
 
 var procPages = {}
 
-const drawState = state => {
-	procsSVG = d3
-		.select('#procs')
+const drawState = states => {
+	procs1SVG = d3
+		.select('#procs-1')
 		.append('svg:svg')
 		.attr('width', procsWidth)
-		.attr('height', Object.keys(state.procs).length * 1.25 * procHeight + 96)
+		.attr(
+			'height',
+			Object.keys(states[0].procs).length * 1.25 * procHeight + 96
+		)
 
-	pagesSVG = d3
-		.select('#pages')
+	pages1SVG = d3
+		.select('#pages-1')
 		.append('svg:svg')
 		.attr('width', pagesWidth)
 		.attr('height', pagesHeight - headerHeight - 8)
 
-	drawProcs(state.current, state.procs)
+	procs2SVG = d3
+		.select('#procs-2')
+		.append('svg:svg')
+		.attr('width', procsWidth)
+		.attr(
+			'height',
+			Object.keys(states[1].procs).length * 1.25 * procHeight + 96
+		)
+
+	pages2SVG = d3
+		.select('#pages-2')
+		.append('svg:svg')
+		.attr('width', pagesWidth)
+		.attr('height', pagesHeight - headerHeight - 8)
+
+	drawProcs(1, procs1SVG, state.current, state.procs)
 	drawPages(state.pages)
 }
 
-const drawProcs = (current, procs) => {
+const drawProcs = (state, svg, current, procs) => {
 	// draw the links between the procs first
 	// procs should be rendered later over the links
 	for (var i = 1; i < Object.keys(procs).length; i++) {
-		procsSVG
+		svg
 			.append('svg:line')
 			.attr('x1', procsWidth / 2 - procWidth / 4)
 			.attr('x2', procsWidth / 2 - procWidth / 4)
@@ -42,7 +60,7 @@ const drawProcs = (current, procs) => {
 	var index = 0
 	for (i in procs) {
 		procPages[i] = { toggled: false, nodes: [] }
-		var procGroup = procsSVG.append('svg:g').attr('id', 'proc-' + i)
+		var procGroup = svg.append('svg:g').attr('id', 'proc' + state + '-' + i)
 		const proc = procs[i]
 
 		const strokeColor =
@@ -51,7 +69,7 @@ const drawProcs = (current, procs) => {
 		const procId = i
 		procGroup
 			.append('svg:rect')
-			.attr('id', 'proc-' + i + '-rect')
+			.attr('id', 'proc' + state + '-' + i + '-rect')
 			.attr('height', procHeight)
 			.attr('width', procWidth)
 			.attr('x', procsWidth / 2 - procWidth / 2)
@@ -71,7 +89,7 @@ const drawProcs = (current, procs) => {
 
 		procGroup
 			.append('svg:line')
-			.attr('id', 'proc-' + i + '-divider')
+			.attr('id', 'proc' + state + '-' + i + '-divider')
 			.attr('x1', procsWidth / 2)
 			.attr('x2', procsWidth / 2)
 			.attr('y1', 48 + i * 1.25 * procHeight)
@@ -81,7 +99,7 @@ const drawProcs = (current, procs) => {
 
 		procGroup
 			.append('svg:text')
-			.attr('id', 'proc-' + i + '-id')
+			.attr('id', 'proc' + state + '-' + i + '-id')
 			.attr('x', procsWidth / 2 - procWidth / 4)
 			.attr('y', 48 + 28 + index * 1.25 * procHeight + procHeight / 2)
 			.attr('font-family', 'Sofia Pro')
@@ -95,7 +113,7 @@ const drawProcs = (current, procs) => {
 
 		procGroup
 			.append('svg:text')
-			.attr('id', 'proc-' + i + '-nrchild')
+			.attr('id', 'proc' + state + '-' + i + '-nrchild')
 			.attr('x', procsWidth / 2 + procWidth / 2 - 32)
 			.attr('y', 48 + index * 1.25 * procHeight + procHeight / 3)
 			.attr('font-family', 'Sofia Pro')
@@ -109,7 +127,7 @@ const drawProcs = (current, procs) => {
 
 		procGroup
 			.append('svg:text')
-			.attr('id', 'proc-' + i + '-nrchild')
+			.attr('id', 'proc' + state + '-' + i + '-nrchild')
 			.attr('x', procsWidth / 2 + 16)
 			.attr('y', 48 + index * 1.25 * procHeight + procHeight / 3)
 			.attr('font-family', 'Sofia Pro')
@@ -122,7 +140,7 @@ const drawProcs = (current, procs) => {
 
 		procGroup
 			.append('svg:text')
-			.attr('id', 'proc-' + i + '-nrfree')
+			.attr('id', 'proc' + state + '-' + i + '-nrfree')
 			.attr('x', procsWidth / 2 + procWidth / 2 - 32)
 			.attr('y', 36 + index * 1.25 * procHeight + (procHeight / 3) * 2)
 			.attr('font-family', 'Sofia Pro')
@@ -136,7 +154,7 @@ const drawProcs = (current, procs) => {
 
 		procGroup
 			.append('svg:text')
-			.attr('id', 'proc-' + i + '-nrchild')
+			.attr('id', 'proc' + state + '-' + i + '-nrchild')
 			.attr('x', procsWidth / 2 + 16)
 			.attr('y', 36 + index * 1.25 * procHeight + (procHeight / 3) * 2)
 			.attr('font-family', 'Sofia Pro')
@@ -149,7 +167,7 @@ const drawProcs = (current, procs) => {
 
 		procGroup
 			.append('svg:text')
-			.attr('id', 'proc-' + i + '-nrfree')
+			.attr('id', 'proc' + state + '-' + i + '-nrfree')
 			.attr('x', procsWidth / 2 + procWidth / 2 - 32)
 			.attr('y', 24 + index * 1.25 * procHeight + procHeight)
 			.attr('font-family', 'Sofia Pro')
@@ -163,7 +181,7 @@ const drawProcs = (current, procs) => {
 
 		procGroup
 			.append('svg:text')
-			.attr('id', 'proc-' + i + '-nrchild')
+			.attr('id', 'proc' + state + '-' + i + '-nrchild')
 			.attr('x', procsWidth / 2 + 16)
 			.attr('y', 24 + index * 1.25 * procHeight + procHeight)
 			.attr('font-family', 'Sofia Pro')

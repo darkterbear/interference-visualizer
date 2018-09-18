@@ -1,7 +1,9 @@
 var speed = 300
 
-var procsSVG
-var pagesSVG
+var procs1SVG
+var pages1SVG
+var procs2SVG
+var pages2SVG
 
 var uploadButton = document.getElementById('uploadButton')
 

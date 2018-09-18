@@ -70,13 +70,13 @@ h3 {
   float: left;
   border-right: 2px dashed #527aff;
 }
-#content #state-1 #procs {
+#content #state-1 #procs-1 {
   float: left;
   width: 24em;
   height: 100%;
   overflow: auto;
 }
-#content #state-1 #pages {
+#content #state-1 #pages-1 {
   float: left;
   height: 100%;
   width: calc(100% - 24em);
@@ -91,13 +91,13 @@ h3 {
   margin-left: 0;
   margin-right: 0.5em;
 }
-#content #state-2 #procs {
+#content #state-2 #procs-2 {
   float: right;
   width: 24em;
   height: 100%;
   overflow: auto;
 }
-#content #state-2 #pages {
+#content #state-2 #pages-2 {
   float: right;
   height: 100%;
   width: calc(100% - 24em);
