@@ -6,7 +6,8 @@ var pagesWidth = document.getElementById('pages-1').offsetWidth
 var pagesHeight = document.getElementById('pages-1').offsetHeight
 var headerHeight = document.getElementsByClassName('header')[0].offsetHeight
 
-var procPages = {}
+var procPages1 = {}
+var procPages2 = {}
 
 const drawState = states => {
 	procs1SVG = d3
@@ -39,11 +40,14 @@ const drawState = states => {
 		.attr('width', pagesWidth)
 		.attr('height', pagesHeight - headerHeight - 8)
 
-	drawProcs(1, procs1SVG, state.current, state.procs)
-	drawPages(state.pages)
+	drawProcs(1, procs1SVG, states[0].current, states[0].procs, procPages1)
+	drawPages(1, pages1SVG, states[0].pages, procPages1)
+
+	drawProcs(2, procs2SVG, states[1].current, states[1].procs, procPages2)
+	drawPages(2, pages2SVG, states[1].pages, procPages2)
 }
 
-const drawProcs = (state, svg, current, procs) => {
+const drawProcs = (state, svg, current, procs, procPages) => {
 	// draw the links between the procs first
 	// procs should be rendered later over the links
 	for (var i = 1; i < Object.keys(procs).length; i++) {
@@ -84,7 +88,7 @@ const drawProcs = (state, svg, current, procs) => {
 		// })
 
 		procGroup.on('click', () => {
-			togglePageHighlight(procId)
+			togglePageHighlight(procId, procPages, state)
 		})
 
 		procGroup
@@ -198,7 +202,7 @@ const drawProcs = (state, svg, current, procs) => {
 
 const pageDimension = 36
 
-const drawPages = pages => {
+const drawPages = (state, svg, pages, procPages) => {
 	const pagesPerRow = Math.floor(pagesWidth / (pageDimension * 1.5))
 
 	var row = 0
@@ -216,7 +220,7 @@ const drawPages = pages => {
 
 		const color = page.free ? '#57E5A1' : '#aaaaaa'
 
-		const pageRect = pagesSVG
+		const pageRect = svg
 			.append('svg:rect')
 			.attr('id', 'page-' + i)
 			.attr('height', pageDimension)
@@ -240,7 +244,7 @@ const drawPages = pages => {
 	}
 }
 
-const togglePageHighlight = procId => {
+const togglePageHighlight = (procId, procPages, state) => {
 	// highlight the pages that belong to this procId
 	var thisProcPages = procPages[procId]
 
@@ -260,7 +264,7 @@ const togglePageHighlight = procId => {
 	})
 
 	// highlight this proc
-	selectByD3Id('proc-' + procId + '-rect')
+	selectByD3Id('proc' + state + '-' + procId + '-rect')
 		.transition()
 		.attr('stroke-width', newProcBorderWidth)
 		.duration(speed)
@@ -290,6 +294,8 @@ const togglePageHighlight = procId => {
 }
 
 const clearCanvas = () => {
-	if (procsSVG) procsSVG.remove()
-	if (pagesSVG) pagesSVG.remove()
+	if (procs1SVG) procs1SVG.remove()
+	if (pages1SVG) pages1SVG.remove()
+	if (procs2SVG) procs2SVG.remove()
+	if (pages2SVG) pages2SVG.remove()
 }
