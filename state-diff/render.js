@@ -214,18 +214,21 @@ const drawPages = (state, svg, pages, procPages) => {
 			column = 0
 		}
 
-		console.log(row + ' ' + column)
-
 		const page = pages[i]
 
 		const color = page.free ? '#57E5A1' : '#aaaaaa'
+		console.log(pagesPerRow)
+		const xOffset =
+			pagesWidth / 2 -
+			(pageDimension * 1.5 * pagesPerRow - 0.5 * pageDimension) / 2
 
+		//console.log(xOffset)
 		const pageRect = svg
 			.append('svg:rect')
 			.attr('id', 'page-' + i)
 			.attr('height', pageDimension)
 			.attr('width', pageDimension)
-			.attr('x', column * pageDimension * 1.5 + 32)
+			.attr('x', column * pageDimension * 1.5 + xOffset)
 			.attr('y', row * pageDimension * 1.5 + 32)
 			.attr('rx', 8)
 			.attr('ry', 8)
@@ -277,9 +280,9 @@ const togglePageHighlight = (procId, procPages, state) => {
 
 		if (!unhighlightProcPages.toggled) continue
 
-		selectByD3Id('proc-' + id + '-rect')
+		selectByD3Id('proc' + state + '-' + id + '-rect')
 			.transition()
-			.attr('fill', 'white')
+			.attr('stroke-width', 6)
 			.duration(speed * 2)
 
 		unhighlightProcPages.toggled = false

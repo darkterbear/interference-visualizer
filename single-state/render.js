@@ -257,7 +257,7 @@ const togglePageHighlight = procId => {
 
 		selectByD3Id('proc-' + id + '-rect')
 			.transition()
-			.attr('fill', 'white')
+			.attr('stroke-width', 6)
 			.duration(speed * 2)
 
 		unhighlightProcPages.toggled = false
