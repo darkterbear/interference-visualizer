@@ -68,7 +68,7 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 		const proc = procs[i]
 
 		const strokeColor =
-			i == current ? '#527aff' : proc.state === 1 ? '#57E5A1' : '#F05056'
+			i == current ? '#527aff' : proc.state === 1 ? '#57E5A1' : '#CCCCCC'
 
 		const procId = i
 		procGroup
@@ -108,8 +108,8 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 			.attr('y', 48 + 28 + index * 1.25 * procHeight + procHeight / 2)
 			.attr('font-family', 'Sofia Pro')
 			.attr('font-size', 84)
-			.attr('fill', 'black')
-			.attr('stroke', 'black')
+			.attr('fill', proc.state === 0 ? '#CCCCCC' : 'black')
+			.attr('stroke', proc.state === 0 ? '#CCCCCC' : 'black')
 			.style('text-anchor', 'middle')
 			.text(() => {
 				return i
@@ -122,8 +122,8 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 			.attr('y', 48 + index * 1.25 * procHeight + procHeight / 3)
 			.attr('font-family', 'Sofia Pro')
 			.attr('font-size', 28)
-			.attr('fill', 'black')
-			.attr('stroke', 'black')
+			.attr('fill', proc.state === 0 ? '#CCCCCC' : 'black')
+			.attr('stroke', proc.state === 0 ? '#CCCCCC' : 'black')
 			.style('text-anchor', 'middle')
 			.text(() => {
 				return proc.nr_children
@@ -149,8 +149,8 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 			.attr('y', 36 + index * 1.25 * procHeight + (procHeight / 3) * 2)
 			.attr('font-family', 'Sofia Pro')
 			.attr('font-size', 28)
-			.attr('fill', 'black')
-			.attr('stroke', 'black')
+			.attr('fill', proc.state === 0 ? '#CCCCCC' : 'black')
+			.attr('stroke', proc.state === 0 ? '#CCCCCC' : 'black')
 			.style('text-anchor', 'middle')
 			.text(() => {
 				return proc.nr_free_pages
@@ -176,8 +176,8 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 			.attr('y', 24 + index * 1.25 * procHeight + procHeight)
 			.attr('font-family', 'Sofia Pro')
 			.attr('font-size', 28)
-			.attr('fill', 'black')
-			.attr('stroke', 'black')
+			.attr('fill', proc.state === 0 ? '#CCCCCC' : 'black')
+			.attr('stroke', proc.state === 0 ? '#CCCCCC' : 'black')
 			.style('text-anchor', 'middle')
 			.text(() => {
 				return proc.fileid
@@ -235,6 +235,20 @@ const drawPages = (state, svg, pages, procPages) => {
 			.attr('fill', color)
 			.attr('stroke', '#527aff')
 			.attr('stroke-width', 0)
+
+		const pageText = svg
+			.append('svg:text')
+			.attr('id', 'page-' + i + '-text')
+			.attr('x', column * pageDimension * 1.5 + xOffset + pageDimension / 2)
+			.attr('y', row * pageDimension * 1.5 + 32 + (3 * pageDimension) / 4)
+			.attr('font-family', 'Sofia Pro')
+			.attr('font-size', 24)
+			.attr('fill', 'white')
+			.attr('stroke', 'white')
+			.style('text-anchor', 'middle')
+			.text(() => {
+				return page.owner
+			})
 
 		procPages[page.owner].nodes.push(pageRect)
 		// if (procPages[page.owner]) {
