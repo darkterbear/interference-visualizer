@@ -40,14 +40,35 @@ const drawState = states => {
 		.attr('width', pagesWidth)
 		.attr('height', pagesHeight - headerHeight - 8)
 
-	drawProcs(1, procs1SVG, states[0].current, states[0].procs, procPages1)
+	drawProcs(
+		1,
+		procs1SVG,
+		states[0].current,
+		states[0].procs,
+		procPages1,
+		states[1].procs
+	)
 	drawPages(1, pages1SVG, states[0].pages, procPages1)
 
-	drawProcs(2, procs2SVG, states[1].current, states[1].procs, procPages2)
+	drawProcs(
+		2,
+		procs2SVG,
+		states[1].current,
+		states[1].procs,
+		procPages2,
+		states[0].procs
+	)
 	drawPages(2, pages2SVG, states[1].pages, procPages2)
 }
 
-const drawProcs = (state, svg, current, procs, procPages) => {
+const drawProcs = (
+	state,
+	svg,
+	current,
+	procs,
+	procPages,
+	oppositeStateProcs
+) => {
 	// draw the links between the procs first
 	// procs should be rendered later over the links
 	for (var i = 1; i < Object.keys(procs).length; i++) {
@@ -88,7 +109,7 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 		// })
 
 		procGroup.on('click', () => {
-			togglePageHighlight(procId, procPages, state)
+			togglePageHighlight(procId, procs, oppositeStateProcs)
 		})
 
 		procGroup
@@ -114,6 +135,18 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 			.text(() => {
 				return i
 			})
+
+		procGroup
+			.append('svg:rect')
+			.attr('id', 'proc' + state + '-' + i + '-nrchild-diff')
+			.attr('width', pageDimension)
+			.attr('height', pageDimension)
+			.attr('rx', 8)
+			.attr('ry', 8)
+			.attr('x', procsWidth / 2 + procWidth / 2 - 50)
+			.attr('y', 20 + index * 1.25 * procHeight + procHeight / 3)
+			.attr('fill', '#ffff00')
+			.style('opacity', 0)
 
 		procGroup
 			.append('svg:text')
@@ -143,6 +176,18 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 			})
 
 		procGroup
+			.append('svg:rect')
+			.attr('id', 'proc' + state + '-' + i + '-nrfree-diff')
+			.attr('width', pageDimension)
+			.attr('height', pageDimension)
+			.attr('rx', 8)
+			.attr('ry', 8)
+			.attr('x', procsWidth / 2 + procWidth / 2 - 50)
+			.attr('y', 8 + index * 1.25 * procHeight + (procHeight / 3) * 2)
+			.attr('fill', '#ffff00')
+			.style('opacity', 0)
+
+		procGroup
 			.append('svg:text')
 			.attr('id', 'proc' + state + '-' + i + '-nrfree')
 			.attr('x', procsWidth / 2 + procWidth / 2 - 32)
@@ -168,6 +213,18 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 			.text(() => {
 				return 'free pages'
 			})
+
+		procGroup
+			.append('svg:rect')
+			.attr('id', 'proc' + state + '-' + i + '-fileid-diff')
+			.attr('width', pageDimension)
+			.attr('height', pageDimension)
+			.attr('rx', 8)
+			.attr('ry', 8)
+			.attr('x', procsWidth / 2 + procWidth / 2 - 50)
+			.attr('y', index * 1.25 * procHeight + procHeight - 4)
+			.attr('fill', '#ffff00')
+			.style('opacity', 0)
 
 		procGroup
 			.append('svg:text')
@@ -217,18 +274,25 @@ const drawPages = (state, svg, pages, procPages) => {
 		const page = pages[i]
 
 		const color = page.free ? '#57E5A1' : '#aaaaaa'
-		console.log(pagesPerRow)
 		const xOffset =
 			pagesWidth / 2 -
 			(pageDimension * 1.5 * pagesPerRow - 0.5 * pageDimension) / 2
 
-		//console.log(xOffset)
+		var baseX
+
+		if (state === 1) {
+			baseX = column * pageDimension * 1.5 + xOffset
+		} else {
+			baseX =
+				pagesWidth - pageDimension - (column * pageDimension * 1.5 + xOffset)
+		}
+
 		const pageRect = svg
 			.append('svg:rect')
 			.attr('id', 'page-' + i)
 			.attr('height', pageDimension)
 			.attr('width', pageDimension)
-			.attr('x', column * pageDimension * 1.5 + xOffset)
+			.attr('x', baseX)
 			.attr('y', row * pageDimension * 1.5 + 32)
 			.attr('rx', 8)
 			.attr('ry', 8)
@@ -239,7 +303,7 @@ const drawPages = (state, svg, pages, procPages) => {
 		const pageText = svg
 			.append('svg:text')
 			.attr('id', 'page-' + i + '-text')
-			.attr('x', column * pageDimension * 1.5 + xOffset + pageDimension / 2)
+			.attr('x', baseX + pageDimension / 2)
 			.attr('y', row * pageDimension * 1.5 + 32 + (3 * pageDimension) / 4)
 			.attr('font-family', 'Sofia Pro')
 			.attr('font-size', 24)
@@ -261,7 +325,7 @@ const drawPages = (state, svg, pages, procPages) => {
 	}
 }
 
-const togglePageHighlight = procId => {
+const togglePageHighlight = (procId, procsA, procsB) => {
 	// highlight the pages that belong to this procId
 	var thisProcPages1 = procPages1[procId]
 	var thisProcPages2 = procPages2[procId]
@@ -294,20 +358,81 @@ const togglePageHighlight = procId => {
 		.transition()
 		.style('opacity', 1)
 		.duration(speed * 2)
+
 	selectByD3Id('proc1-' + procId + '-rect')
 		.transition()
 		.attr('stroke-width', newProcBorderWidth)
 		.duration(speed)
 
-	// TODO: highlight field diffs
 	selectByD3Id('proc2-' + procId)
 		.transition()
 		.style('opacity', 1)
 		.duration(speed * 2)
+
 	selectByD3Id('proc2-' + procId + '-rect')
 		.transition()
 		.attr('stroke-width', newProcBorderWidth)
 		.duration(speed)
+
+	if (on && procsA[procId].nr_children !== procsB[procId].nr_children) {
+		selectByD3Id('proc1-' + procId + '-nrchild-diff')
+			.transition()
+			.style('opacity', 1)
+			.duration(speed)
+		selectByD3Id('proc2-' + procId + '-nrchild-diff')
+			.transition()
+			.style('opacity', 1)
+			.duration(speed)
+	}
+
+	if (on && procsA[procId].nr_free_pages !== procsB[procId].nr_free_pages) {
+		selectByD3Id('proc1-' + procId + '-nrfree-diff')
+			.transition()
+			.style('opacity', 1)
+			.duration(speed)
+		selectByD3Id('proc2-' + procId + '-nrfree-diff')
+			.transition()
+			.style('opacity', 1)
+			.duration(speed)
+	}
+
+	if (on && procsA[procId].fileid !== procsB[procId].fileid) {
+		selectByD3Id('proc1-' + procId + '-fileid-diff')
+			.transition()
+			.style('opacity', 1)
+			.duration(speed)
+		selectByD3Id('proc2-' + procId + '-fileid-diff')
+			.transition()
+			.style('opacity', 1)
+			.duration(speed)
+	}
+
+	if (!on) {
+		selectByD3Id('proc1-' + procId + '-nrchild-diff')
+			.transition()
+			.style('opacity', 0)
+			.duration(speed)
+		selectByD3Id('proc2-' + procId + '-nrchild-diff')
+			.transition()
+			.style('opacity', 0)
+			.duration(speed)
+		selectByD3Id('proc1-' + procId + '-nrfree-diff')
+			.transition()
+			.style('opacity', 0)
+			.duration(speed)
+		selectByD3Id('proc2-' + procId + '-nrfree-diff')
+			.transition()
+			.style('opacity', 0)
+			.duration(speed)
+		selectByD3Id('proc1-' + procId + '-fileid-diff')
+			.transition()
+			.style('opacity', 0)
+			.duration(speed)
+		selectByD3Id('proc2-' + procId + '-fileid-diff')
+			.transition()
+			.style('opacity', 0)
+			.duration(speed)
+	}
 
 	// make everything visible opacity, no more observation overlay or diff highlights
 
@@ -328,6 +453,19 @@ const togglePageHighlight = procId => {
 				.style('opacity', 1)
 				.duration(speed * 2)
 		}
+
+		selectByD3Id('proc1-' + id + '-nrchild-diff')
+			.transition()
+			.style('opacity', 0)
+			.duration(speed)
+		selectByD3Id('proc1-' + id + '-nrfree-diff')
+			.transition()
+			.style('opacity', 0)
+			.duration(speed)
+		selectByD3Id('proc1-' + id + '-fileid-diff')
+			.transition()
+			.style('opacity', 0)
+			.duration(speed)
 
 		selectByD3Id('proc1-' + id + '-rect')
 			.transition()
@@ -360,6 +498,19 @@ const togglePageHighlight = procId => {
 				.style('opacity', 1)
 				.duration(speed * 2)
 		}
+
+		selectByD3Id('proc2-' + id + '-nrchild-diff')
+			.transition()
+			.style('opacity', 0)
+			.duration(speed)
+		selectByD3Id('proc2-' + id + '-nrfree-diff')
+			.transition()
+			.style('opacity', 0)
+			.duration(speed)
+		selectByD3Id('proc2-' + id + '-fileid-diff')
+			.transition()
+			.style('opacity', 0)
+			.duration(speed)
 
 		selectByD3Id('proc2-' + id + '-rect')
 			.transition()

@@ -192,8 +192,6 @@ const drawPages = pages => {
 			column = 0
 		}
 
-		console.log(row + ' ' + column)
-
 		const page = pages[i]
 
 		const color = page.free ? '#57E5A1' : '#aaaaaa'
