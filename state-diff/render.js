@@ -70,6 +70,7 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 		const strokeColor =
 			i == current ? '#527aff' : proc.state === 1 ? '#57E5A1' : '#CCCCCC'
 
+		// TODO: change the field name visualization, use full words and smaller text
 		const procId = i
 		procGroup
 			.append('svg:rect')
@@ -295,14 +296,21 @@ const togglePageHighlight = procId => {
 		.attr('stroke-width', newProcBorderWidth)
 		.duration(speed)
 
+	// TODO: highlight field diffs
+
 	selectByD3Id('proc2-' + procId + '-rect')
 		.transition()
 		.attr('stroke-width', newProcBorderWidth)
 		.duration(speed)
 
+	// TODO: if "on" is false, that means they are deactivating their selection,
+	// make everything visible opacity, no more observation overlay or diff highlights
+
 	// unhighlight the pages and the proc that don't belong to this procId
 	for (var id in procPages1) {
 		if (id == procId) continue
+
+		// TODO: make these procs de-emphasized (opacity down to 20%)
 
 		var unhighlightProcPages = procPages1[id]
 
@@ -325,6 +333,8 @@ const togglePageHighlight = procId => {
 
 	for (var id in procPages2) {
 		if (id == procId) continue
+
+		// TODO: make these procs de-emphasized (opacity down to 20%)
 
 		var unhighlightProcPages = procPages2[id]
 
