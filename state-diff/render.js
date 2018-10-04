@@ -53,8 +53,8 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 	for (var i = 1; i < Object.keys(procs).length; i++) {
 		svg
 			.append('svg:line')
-			.attr('x1', procsWidth / 2 - procWidth / 4)
-			.attr('x2', procsWidth / 2 - procWidth / 4)
+			.attr('x1', procsWidth / 2)
+			.attr('x2', procsWidth / 2)
 			.attr('y1', 48 + i * 1.25 * procHeight - 0.25 * procHeight)
 			.attr('y2', 48 + i * 1.25 * procHeight)
 			.style('stroke', 'lightgray')
@@ -70,7 +70,6 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 		const strokeColor =
 			i == current ? '#527aff' : proc.state === 1 ? '#57E5A1' : '#CCCCCC'
 
-		// TODO: change the field name visualization, use full words and smaller text
 		const procId = i
 		procGroup
 			.append('svg:rect')
@@ -95,8 +94,8 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 		procGroup
 			.append('svg:line')
 			.attr('id', 'proc' + state + '-' + i + '-divider')
-			.attr('x1', procsWidth / 2)
-			.attr('x2', procsWidth / 2)
+			.attr('x1', procsWidth / 2 - procWidth / 5)
+			.attr('x2', procsWidth / 2 - procWidth / 5)
 			.attr('y1', 48 + i * 1.25 * procHeight)
 			.attr('y2', 48 + i * 1.25 * procHeight + procHeight)
 			.style('stroke', strokeColor)
@@ -105,10 +104,10 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 		procGroup
 			.append('svg:text')
 			.attr('id', 'proc' + state + '-' + i + '-id')
-			.attr('x', procsWidth / 2 - procWidth / 4)
-			.attr('y', 48 + 28 + index * 1.25 * procHeight + procHeight / 2)
+			.attr('x', procsWidth / 2 - (7 * procWidth) / 20)
+			.attr('y', 70 + index * 1.25 * procHeight + procHeight / 2)
 			.attr('font-family', 'Sofia Pro')
-			.attr('font-size', 84)
+			.attr('font-size', 64)
 			.attr('fill', proc.state === 0 ? '#CCCCCC' : 'black')
 			.attr('stroke', proc.state === 0 ? '#CCCCCC' : 'black')
 			.style('text-anchor', 'middle')
@@ -132,15 +131,15 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 
 		procGroup
 			.append('svg:text')
-			.attr('id', 'proc' + state + '-' + i + '-nrchild')
-			.attr('x', procsWidth / 2 + 16)
-			.attr('y', 48 + index * 1.25 * procHeight + procHeight / 3)
+			.attr('id', 'proc' + state + '-' + i + '-nrchild-label')
+			.attr('x', procsWidth / 2 + 48 - (7 * procWidth) / 20)
+			.attr('y', 48 + index * 1.25 * procHeight + procHeight / 3 - 4)
 			.attr('font-family', 'Sofia Pro')
-			.attr('font-size', 28)
+			.attr('font-size', 18)
 			.attr('fill', '#c4c4c4')
 			.attr('stroke', '#c4c4c4')
 			.text(() => {
-				return 'C'
+				return 'children'
 			})
 
 		procGroup
@@ -159,20 +158,20 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 
 		procGroup
 			.append('svg:text')
-			.attr('id', 'proc' + state + '-' + i + '-nrchild')
-			.attr('x', procsWidth / 2 + 16)
-			.attr('y', 36 + index * 1.25 * procHeight + (procHeight / 3) * 2)
+			.attr('id', 'proc' + state + '-' + i + '-nrfree-label')
+			.attr('x', procsWidth / 2 + 48 - (7 * procWidth) / 20)
+			.attr('y', 36 + index * 1.25 * procHeight + (procHeight / 3) * 2 - 4)
 			.attr('font-family', 'Sofia Pro')
-			.attr('font-size', 28)
+			.attr('font-size', 18)
 			.attr('fill', '#c4c4c4')
 			.attr('stroke', '#c4c4c4')
 			.text(() => {
-				return 'F'
+				return 'free pages'
 			})
 
 		procGroup
 			.append('svg:text')
-			.attr('id', 'proc' + state + '-' + i + '-nrfree')
+			.attr('id', 'proc' + state + '-' + i + '-fileid')
 			.attr('x', procsWidth / 2 + procWidth / 2 - 32)
 			.attr('y', 24 + index * 1.25 * procHeight + procHeight)
 			.attr('font-family', 'Sofia Pro')
@@ -186,15 +185,15 @@ const drawProcs = (state, svg, current, procs, procPages) => {
 
 		procGroup
 			.append('svg:text')
-			.attr('id', 'proc' + state + '-' + i + '-nrchild')
-			.attr('x', procsWidth / 2 + 16)
-			.attr('y', 24 + index * 1.25 * procHeight + procHeight)
+			.attr('id', 'proc' + state + '-' + i + '-fileid-label')
+			.attr('x', procsWidth / 2 + 48 - (7 * procWidth) / 20)
+			.attr('y', 24 + index * 1.25 * procHeight + procHeight - 4)
 			.attr('font-family', 'Sofia Pro')
-			.attr('font-size', 28)
+			.attr('font-size', 18)
 			.attr('fill', '#c4c4c4')
 			.attr('stroke', '#c4c4c4')
 			.text(() => {
-				return 'FI'
+				return 'file id'
 			})
 
 		index++
