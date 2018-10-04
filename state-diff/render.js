@@ -247,19 +247,28 @@ const drawPages = (state, svg, pages, procPages) => {
 	}
 }
 
-const togglePageHighlight = (procId, procPages, state) => {
+const togglePageHighlight = procId => {
 	// highlight the pages that belong to this procId
-	var thisProcPages = procPages[procId]
+	var thisProcPages1 = procPages1[procId]
+	var thisProcPages2 = procPages2[procId]
 
-	if (!thisProcPages) return
+	if (!thisProcPages1 || !thisProcPages2) return
 
-	const on = !thisProcPages.toggled
-	thisProcPages.toggled = on
+	const on = !thisProcPages1.toggled
+	thisProcPages1.toggled = on
+	thisProcPages2.toggled = on
 
 	const newStrokeWidth = on ? 4 : 0
 	const newProcBorderWidth = on ? 12 : 6
 
-	thisProcPages.nodes.forEach(pageRect => {
+	thisProcPages1.nodes.forEach(pageRect => {
+		pageRect
+			.transition()
+			.attr('stroke-width', newStrokeWidth)
+			.duration(speed)
+	})
+
+	thisProcPages2.nodes.forEach(pageRect => {
 		pageRect
 			.transition()
 			.attr('stroke-width', newStrokeWidth)
@@ -267,20 +276,47 @@ const togglePageHighlight = (procId, procPages, state) => {
 	})
 
 	// highlight this proc
-	selectByD3Id('proc' + state + '-' + procId + '-rect')
+	selectByD3Id('proc1-' + procId + '-rect')
+		.transition()
+		.attr('stroke-width', newProcBorderWidth)
+		.duration(speed)
+
+	selectByD3Id('proc2-' + procId + '-rect')
 		.transition()
 		.attr('stroke-width', newProcBorderWidth)
 		.duration(speed)
 
 	// unhighlight the pages and the proc that don't belong to this procId
-	for (var id in procPages) {
+	for (var id in procPages1) {
 		if (id == procId) continue
 
-		var unhighlightProcPages = procPages[id]
+		var unhighlightProcPages = procPages1[id]
 
 		if (!unhighlightProcPages.toggled) continue
 
-		selectByD3Id('proc' + state + '-' + id + '-rect')
+		selectByD3Id('proc1-' + id + '-rect')
+			.transition()
+			.attr('stroke-width', 6)
+			.duration(speed * 2)
+
+		unhighlightProcPages.toggled = false
+
+		unhighlightProcPages.nodes.forEach(pageRect => {
+			pageRect
+				.transition()
+				.attr('stroke-width', 0)
+				.duration(speed)
+		})
+	}
+
+	for (var id in procPages2) {
+		if (id == procId) continue
+
+		var unhighlightProcPages = procPages2[id]
+
+		if (!unhighlightProcPages.toggled) continue
+
+		selectByD3Id('proc2-' + id + '-rect')
 			.transition()
 			.attr('stroke-width', 6)
 			.duration(speed * 2)
