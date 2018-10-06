@@ -10,6 +10,11 @@ var procPages1 = {}
 var procPages2 = {}
 
 const drawState = states => {
+	document.getElementById('state-1-procs-header').innerHTML =
+		states[0].nr_procs + ' procs'
+	document.getElementById('state-2-procs-header').innerHTML =
+		states[1].nr_procs + ' procs'
+
 	procs1SVG = d3
 		.select('#procs-1')
 		.append('svg:svg')
