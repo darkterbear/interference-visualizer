@@ -12,6 +12,7 @@
 		"2": { "owner": 0, "inv": 513, "data": {}, "free": false },
 		"3": { "owner": 1, "inv": 513, "data": {}, "free": false }
 	},
+	"nr_procs": 8,
 	"procs": {
 		"0": {
 			"nr_children": 4,

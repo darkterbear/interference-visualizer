@@ -530,6 +530,7 @@
 		"2": { "owner": 2, "inv": 2, "data": {}, "free": false },
 		"3": { "owner": 2, "inv": 3, "data": {}, "free": false }
 	},
+	"nr_procs": 8,
 	"procs": {
 		"0": {
 			"nr_children": 2,
