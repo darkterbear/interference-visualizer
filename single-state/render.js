@@ -46,7 +46,7 @@ const drawProcs = (current, procs) => {
 		const proc = procs[i]
 
 		const strokeColor =
-			i == current ? '#527aff' : proc.state === 1 ? '#57E5A1' : '#F05056'
+			i == current ? '#527aff' : proc.state === 1 ? '#57E5A1' : '#CCCCCC'
 
 		const procId = i
 		procGroup
